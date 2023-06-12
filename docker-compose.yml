@@ -1,0 +1,22 @@
+services:
+  db:
+    container_name: dbabbeal
+    image: postgres
+    environment:
+      POSTGRES_USER: pgabbeal
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: abbeal
+  abbeal:
+    container_name: abbeal
+    image: sledunois/abbeal:1.0.0-SNAPSHOT
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    command:
+      - ./application
+      - -Dquarkus.http.host=0.0.0.0
+      - -Dquarkus.datasource.db-kind=postgresql
+      - -Dquarkus.datasource.jdbc.url=jdbc:postgresql://db:5432/abbeal
+      - -Dquarkus.datasource.username=pgabbeal
+      - -Dquarkus.datasource.password=password
